@@ -22,6 +22,10 @@ library(RColorBrewer)
 library(viridis)
 library(caret)
 
+services()
+check_scihub_connection()
+
+
 #PART 1: DOWNLOADING & PRE-PROCESSING DATA ------------------------------------------------------------------------------------
 
 # using getSpatialData package
