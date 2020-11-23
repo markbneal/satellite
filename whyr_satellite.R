@@ -46,26 +46,26 @@ products = "Sentinel-2" #choose product (platform), some other example further b
 
 # For sentinel data please create an account on the ESA sci-hub website: https://scihub.copernicus.eu/dhus/#/home
 #login to Esa SCI-HUB, with manual password entry
-#login_CopHub(username = "markbnealfile.edit("~/.Renviron")") #password hint sid+Alpha <- this is not the password!
+login_CopHub(username = "markbneal") #password hint sid+Alpha <- this is not the password!
 
 #login to Esa SCI-HUB, getting password from environment
 # to store passwords see "Environment variables" section at this link 
 # (https://cran.r-project.org/web/packages/httr/vignettes/secrets.html) for storing passwords
-login_CopHub(username = "markbneal", password = Sys.getenv("ESA_PW")) 
+#login_CopHub(username = "markbneal", password = Sys.getenv("ESA_PW")) 
 
 # For Landsat data please create an account on the USGS website: https://earthexplorer.usgs.gov/
 #login to USGS for Landsat, with manual password entry
 #login_USGS(username = "markbneal") #password hint (sid+Alpha)*2  <- this is not the password!
 
 #login to USGS, getting password from environment
-login_USGS(username = "markbneal", password = Sys.getenv("USGS_PW"))
+#login_USGS(username = "markbneal", password = Sys.getenv("USGS_PW"))
 
 # For some other data please create an account on the earthdata website: https://urs.earthdata.nasa.gov/users/new
 #login to earthdata, with manual password entry
 #login_earthdata(username = "markbneal") #password hint sid+Alpha+alpha <- this is not the password!
 
 #login to earthdata, getting password from environment
-login_earthdata(username = "markbneal", password = Sys.getenv("NASA_PW"))
+#login_earthdata(username = "markbneal", password = Sys.getenv("NASA_PW"))
 
 #get a Sentinel-2 query with specified parameters 
 #?getSentinel_records
@@ -110,6 +110,7 @@ for(i in 1:length(records)){
 } # I wouldn't do this if there is heaps of data
 
 getSentinel_data(records)
+
 #getLandsat_data(records)
 check_availability()
 records$download_available
