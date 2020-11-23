@@ -21,6 +21,7 @@ library(ggplot2)
 library(RColorBrewer)
 library(viridis)
 library(caret)
+library(sf)
 
 services()
 check_scihub_connection()
@@ -44,6 +45,7 @@ get_products() #list of available products
 research_farm_aoi <- readRDS("research_farm_aoi.RDS") #read it in if you don't want to do it interactively
 set_aoi(research_farm_aoi) #set aoi from saved data
 view_aoi()
+class(research_farm_aoi)
 
 time_range =  c("2020-11-01", "2020-11-30") #set time range
 products = "Sentinel-2" #choose product (platform), some other example further below
@@ -113,10 +115,16 @@ for(i in 1:length(records)){
   print(p)
 } # I wouldn't do this if there is heaps of data
 
-getSentinel_data(records)
-#getLandsat_data(records)
-check_availability()
 records$download_available
+getSentinel_data(records) #doesn't work, either on work network, or at home, or rstudio cloud.
+
+records$download_available <- TRUE #https://github.com/16EAGLE/getSpatialData/issues/76#issuecomment-732314445
+
+getSentinel_data(records) #this gives me a zip file, with bands as separate .jp2 files
+#see resolution and band data here: https://sentinel.esa.int/web/sentinel/user-guides/sentinel-2-msi/resolutions/spatial
+
+#getLandsat_data(records)
+#check_availability(records)
 
 #use this for SRTM elevation data
 # get_data(records, verbose = TRUE)
@@ -128,12 +136,67 @@ records$download_available
 # elevation2 <- readRDS("S38E175.RDS")
 # image(elevation2)
 
+#trying to read jp2 files with sf
+library(sf)
+st_drivers() #JPEG2000 and JP2OpenJPEG drivers available
+data <- st_read('_datasets/Sentinel-2/R10m/T60HUD_20201119T222549_B02_10m.jp2', drivers='JP2OpenJPEG') #no success
 
+#trying to read jp2 with rdgal 
+library(rgdal) 
+library(gdalUtils) #necessary? https://www.researchgate.net/post/How_to_work_with_Sentinel-2_jp2_files_in_R
+gdal_chooseInstallation('JP2OpenJPEG')
+
+gdalDrivers()
+s2a <- readGDAL('_datasets/Sentinel-2/R10m/T60HUD_20201119T222549_B02_10m.jp2') #success
+summary(s2a)
+
+?s2_rgb
 #some interesting tools from sen2r package - very good package for processing Sentinel-2 images; also tools for downloading data
 ?s2_translate #enables to create one stack (one, multi-band, geotiff image)
 ?s2_calcindices #many many indices 
 ?s2_mask #masking clouds
 
+s2_translate('C:/sen2r/S2B_MSIL2A_20201119T222549_N0214_R029_T60HUD_20201120T001425.SAFE', bigtiff = TRUE)
+# produces a vrt file - and now what?
+
+#s2_translate('C:/sen2r/S2B_MSIL2A_20201119T222549_N0214_R029_T60HUD_20201120T001425.SAFE/GRANULE/L2A_T60HUD_A019360_20201119T222544/IMG_DATA/R10m/')
+# error
+
+
+
+# Trying workflow from sen2r vignette ####--------------------------------------------------
+# http://sen2r.ranghetti.info/articles/sen2r_cmd.html
+
+# Set paths
+dir.create("C:/sen2r/sen2r_out_1_")
+dir.create("C:/sen2r/sen2r_safe_")
+out_dir_1  <- "C:/sen2r/sen2r_out_1_" # output folder
+safe_dir_1 <- "C:/sen2r/sen2r_safe_"  # folder to store downloaded SAFE
+
+# myextent_1 <- system.file("extdata/vector/barbellino.geojson", package = "sen2r") 
+# class(myextent_1)
+
+#use my preferred extent
+library(geojsonsf)
+research_farm_aoi_sf <- st_sf(research_farm_aoi)
+myextent_1 <- sf_geojson(research_farm_aoi_sf)
+class(myextent_1)
+
+#library(sen2r)
+out_paths_1 <- sen2r(
+  gui = FALSE,
+  step_atmcorr = "l2a",
+  extent = myextent_1,
+  extent_name = "researchfarm",
+  timewindow = time_range,
+  list_prods = c("BOA","SCL"),
+  list_indices = c("NDVI","MSAVI2"),
+  list_rgb = c("RGB432B"),
+  mask_type = "cloud_and_shadow",
+  max_mask = 10, 
+  path_l2a = safe_dir_1,
+  path_out = out_dir_1
+)
 
 #PART 2: READING AND VISUALIZATION USING RASTER PACKAGE ------------------------------------------------------------------------
 
