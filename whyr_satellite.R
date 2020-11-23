@@ -3,6 +3,7 @@
 # https://www.youtube.com/watch?v=k1K6nqgtRL8&feature=youtu.be #webinar code not exact match for workshop
 # Ewa's workshop code is modified below to be a self-contained RStudio project/Github Repo
 
+#edit
 
 #install.packages("devtools")
 #devtools::install_github("16EAGLE/getSpatialData")
