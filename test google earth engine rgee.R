@@ -34,14 +34,20 @@ library(rgee)
 # note: I updated conda as per instructions.
 # I also skipped using ee_check(), a possible issue.
 
+#after forced shutdown of processing, some issues
 
 # Quick Demo
 # 1. Compute the trend of night-time lights (JS version) ####-----------------------------------------
 
 ee_Initialize()
-
-#ee_clean_pyenv() #after forced shutdown of processing, some issues
-#may need to restart rstudio, not just r session as recommended
+# #above didn't work
+# ee_install()
+# #ther restart r session
+# library(rgee)
+# ee_clean_pyenv()
+# #may need to restart rstudio, not just r session as recommended
+# ee_install()
+# #restarting rstudio, just to be safe!
 
 createTimeBand <-function(img) {
   year <- ee$Date(img$get('system:time_start'))$get('year')$subtract(1991L)
@@ -83,17 +89,19 @@ library(sf)
 
 NZ <- st_read("NZL_adm0.shp")
 #plot(NZ, max.plot=1)
-ggplot(NZ)+
-  geom_sf() #Chatham Islands!
+# ggplot(NZ)+
+#   geom_sf() #Chatham Islands!
 
 ggplot(NZ)+
   geom_sf()+ 
   coord_sf(xlim = c(166,179), ylim = c(-48,-33)) #without Chatham Islands!
 
 NZ <- st_crop(NZ, xmin=166, xmax=179, ymin=-48, ymax=-33)
-NZ <- st_transform(NZ, 54032) #azimuthal equidistant # https://stackoverflow.com/a/60008553/4927395
-NZ <- st_simplify(NZ, dTolerance=10000)
-NZ <- st_transform(NZ, 4326) 
+# NZ <- st_transform(NZ, 54032) #azimuthal equidistant # https://stackoverflow.com/a/60008553/4927395
+# NZ <- st_simplify(NZ, dTolerance=10000)
+# NZ <- st_transform(NZ, 4326) 
+NZ <- st_simplify(NZ, dTolerance=0.05)
+
 
 ggplot(NZ)+
   geom_sf() 
@@ -116,7 +124,7 @@ col <- col$map(function(img) {
   img$set('doy', doy)
 })
 
-distinctDOY <- col$filterDate('2013-01-01', '2014-01-01')
+distinctDOY <- col$filterDate('2018-11-30', '2020-11-30')
 
 filter <- ee$Filter$equals(leftField = 'doy', rightField = 'doy');
 
@@ -151,9 +159,10 @@ gifParams <- list(
   region = region,
   dimensions = 600,
   crs = 'EPSG:3857',
-  framesPerSecond = 10
+  framesPerSecond = 6
 )
 
 print(rgbVis$getVideoThumbURL(gifParams))
 
 browseURL(rgbVis$getVideoThumbURL(gifParams))
+
