@@ -8,7 +8,7 @@
 
 library(rgee)
 
-#ee_Initialize()
+# ee_Initialize() #one off, first time use
 
 # Welcome to the Earth Engine client library for R!
 #   ---
