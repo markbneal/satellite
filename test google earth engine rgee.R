@@ -46,7 +46,7 @@ ee_Initialize()
 # library(rgee)
 # ee_clean_pyenv()
 # #may need to restart rstudio, not just r session as recommended
-# ee_install()
+ ee_install()
 # #restarting rstudio, just to be safe!
 
 createTimeBand <-function(img) {
@@ -86,6 +86,7 @@ Map$addLayer(
 
 library(tidyverse)
 library(sf)
+library(geojsonsf)
 
 NZ <- st_read("NZL_adm0.shp")
 #plot(NZ, max.plot=1)
@@ -106,18 +107,31 @@ NZ <- st_simplify(NZ, dTolerance=0.05)
 ggplot(NZ)+
   geom_sf() 
 
-mask <- NZ %>% 
+# mask <- NZ %>% 
+#   sf_as_ee()
+
+research_farm_aoi <- readRDS("research_farm_aoi.RDS")
+class(research_farm_aoi)
+research_farm_aoi_sf <- st_sf(research_farm_aoi)
+#research_farm <- sf_geojson(research_farm_aoi_sf)
+
+
+ggplot(research_farm_aoi_sf)+
+  geom_sf() 
+
+mask <- research_farm_aoi_sf %>% 
   sf_as_ee()
 
-# The demo (Arequipa region of Peru) 
+# The demo (Arequipa region of Peru) #for original example with NDVI
 # mask <- system.file("shp/arequipa.shp", package = "rgee") %>% 
 #   st_read(quiet = TRUE) %>% 
-#   sf_as_ee()
+#   sf_as_ee() 
 
 
 region <- mask$geometry()$bounds()
 
-col <- ee$ImageCollection('MODIS/006/MOD13A2')$select('NDVI')
+#col <- ee$ImageCollection('MODIS/006/MOD13A2')$select('NDVI')  #for original example with NDVI
+col <- ee$ImageCollection('COPERNICUS/S2_SR') # from "example true colour..."
 
 col <- col$map(function(img) {
   doy <- ee$Date(img$get('system:time_start'))$getRelative('day', 'year')
@@ -139,16 +153,18 @@ comp <- joinCol$map(function(img) {
   doyCol$reduce(ee$Reducer$median())
 })
 
-visParams = list(
-  min = 0.0,
-  max = 9000.0,
-  bands = "NDVI_median",
-  palette = c(
-    'FFFFFF', 'CE7E45', 'DF923D', 'F1B555', 'FCD163', '99B718', '74A901',
-    '66A000', '529400', '3E8601', '207401', '056201', '004C00', '023B01',
-    '012E01', '011D01', '011301'
-  )
-)
+# visParams = list(
+#   min = 0.0,
+#   max = 9000.0,
+#   bands = "NDVI_median",
+#   palette = c(
+#     'FFFFFF', 'CE7E45', 'DF923D', 'F1B555', 'FCD163', '99B718', '74A901',
+#     '66A000', '529400', '3E8601', '207401', '056201', '004C00', '023B01',
+#     '012E01', '011D01', '011301'
+#   )
+# )  #for original example with NDVI
+
+visParams <- list(bands = c("B4", "B3", "B2"),min = 100,max = 8000,gamma = c(1.9,1.7,1.7)) # from "example true colour..."
 
 rgbVis <- comp$map(function(img) {
   do.call(img$visualize, visParams) %>% 
@@ -165,4 +181,127 @@ gifParams <- list(
 print(rgbVis$getVideoThumbURL(gifParams))
 
 browseURL(rgbVis$getVideoThumbURL(gifParams))
+
+# Simple map display ####-----------------------------------------------------------
+# https://github.com/r-spatial/rgee/blob/examples/GetStarted/02_simple_mapdisplay.R
+
+library(rgee)
+# ee_reattach() # reattach ee as a reserved word
+
+ee_Initialize()
+
+# Load an image.
+image <- ee$Image("LANDSAT/LC08/C01/T1/LC08_044034_20140318")
+
+# Display the image.
+Map$centerObject(image)
+Map$addLayer(image, name = "Landsat 8 original image")
+
+# Define visualization parameters in an object literal.
+vizParams <- list(
+  bands = c("B5", "B4", "B3"),
+  min = 5000, max = 15000, gamma = 1.3
+)
+
+# complete simple example from rgee github ####------------------------------
+# https://github.com/r-spatial/rgee/blob/examples/GetStarted/09_a_complete_example.R
+
+library(rgee)
+# ee_reattach() # reattach ee as a reserved word
+
+ee_Initialize()
+
+# This function gets NDVI from Landsat 8 imagery.
+addNDVI <- function(image) {
+  return(image$addBands(image$normalizedDifference(c("B5", "B4"))))
+}
+
+# This function masks cloudy pixels.
+cloudMask <- function(image) {
+  clouds <- ee$Algorithms$Landsat$simpleCloudScore(image)$select("cloud")
+  return(image$updateMask(clouds$lt(10)))
+}
+
+# Load a Landsat collection, map the NDVI and cloud masking functions over it.
+collection <- ee$ImageCollection("LANDSAT/LC08/C01/T1_TOA")$
+  filterBounds(ee$Geometry$Point(c(-122.262, 37.8719)))$
+  filterDate("2014-03-01", "2014-05-31")$
+  map(addNDVI)$
+  map(cloudMask)
+
+# Reduce the collection to the mean of each pixel and display.
+meanImage <- collection$reduce(ee$Reducer$mean())
+vizParams <- list(
+  bands = c("B5_mean", "B4_mean", "B3_mean"),
+  min = 0,
+  max = 0.5
+)
+
+Map$addLayer(
+  eeObject = meanImage,
+  visParams = vizParams,
+  name = "mean"
+)
+
+# Load a region in which to compute the mean and display it.
+counties <- ee$FeatureCollection("TIGER/2016/Counties")
+santaClara <- ee$Feature(counties$filter(
+  ee$Filter$eq("NAME", "Santa Clara")
+)$first())
+
+Map$addLayer(
+  eeObject = santaClara,
+  visParams = list(palette = "yellow"),
+  name = "Santa Clara"
+)
+
+# Get the mean of NDVI in the region.
+mean <- meanImage$select("nd_mean")$reduceRegion(
+  reducer = ee$Reducer$mean(),
+  geometry = santaClara$geometry(),
+  scale = 30
+)
+mean$get("nd_mean")$getInfo()
+
+# Print mean NDVI for the region.
+cat("Santa Clara spring mean NDVI:", mean$get("nd_mean")$getInfo())
+Map$addLayer(image, vizParams, "Landsat 8 False color")
+
+# Use Map to add features and feature collections to the map. For example,
+counties <- ee$FeatureCollection("TIGER/2016/Counties")
+
+Map$addLayer(
+  eeObject = counties,
+  visParams = vizParams,
+  name = "counties"
+)
+
+
+#example true colour image with Sentinel 2 ####---------------------------------
+#example from amazeone.com.br/barebra/pandora/rgeebookT1eng.pdf
+#html downloaded in this file - not clear of authorship
+#cache downloaded as html
+#brazil backcountry
+# long <-  -44.366
+# lat <-  -17.69
+
+#Research Farms
+long <- 175.35
+lat <- -37.77
+
+col <- ee$ImageCollection('COPERNICUS/S2_SR')
+
+point <- ee$Geometry$Point(long,lat) #-37.77,175.35
+start <- ee$Date("2020-01-11")
+end <- ee$Date("2020-11-20")
+filter <- col$filterBounds(point)$filterDate(start,end)
+img <- filter$first()
+
+#Creating the visualization parameter list by listing the bands used,gamma correction for each band, minimum and maximum values used.
+# RGB Visible
+vPar <- list(bands = c("B4", "B3", "B2"),min = 100,max = 8000,gamma = c(1.9,1.7,1.7))
+
+#Finally we define the center of the map coordinates and the map scalebefore plotting the map with the predefined parameter.
+Map$setCenter(long,lat, zoom = 14)
+Map$addLayer(img, vPar, "True Color Image")
 

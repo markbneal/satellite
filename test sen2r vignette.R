@@ -6,43 +6,60 @@
 # then restarting R session
 
 # Set paths
-out_dir_1  <- tempfile(pattern = "sen2r_out_1_") # output folder
-out_dir_2  <- tempfile(pattern = "sen2r_out_2_") # output folder, my preferred extent
-safe_dir_1 <- tempfile(pattern = "sen2r_safe_")  # folder to store downloaded SAFE
+# out_dir_1  <- tempfile(pattern = "sen2r_out_1_") # output folder
+# out_dir_2  <- tempfile(pattern = "sen2r_out_2_") # output folder, my preferred extent
+# safe_dir_1 <- tempfile(pattern = "sen2r_safe_")  # folder to store downloaded SAFE
 
-# dir.create("C:/sen2r/sen2r_out_1_")
-# dir.create("C:/sen2r/sen2r_safe_")
-# out_dir_1  <- "C:/sen2r/sen2r_out_1_" # output folder
-# safe_dir_1 <- "C:/sen2r/sen2r_safe_"  # folder to store downloaded SAFE
 
-#myextent_1 <- system.file("extdata/vector/barbellino.geojson", package = "sen2r") 
+dir.create("C:/sen2r/sen2r_safe_")
+dir.create("C:/sen2r/sen2r_out_1_")
+dir.create("C:/sen2r/sen2r_out_2_")
+safe_dir_1 <- "C:/sen2r/sen2r_safe_"  # folder to store downloaded SAFE
+out_dir_1  <- "C:/sen2r/sen2r_out_1_" # output folder
+out_dir_2  <- "C:/sen2r/sen2r_out_2_" # output folder
+
+myextent_1 <- system.file("extdata/vector/barbellino.geojson", package = "sen2r") 
 
 #use my preferred extent
+library(sf)
+#install.packages("geojsonsf")
 library(geojsonsf)
-research_farm_aoi <- readRDS("research_farm_aoi.RDS") #read it in if you don't want to do it interactively
-research_farm_aoi_sf <- st_sf(research_farm_aoi)
-myextent_1 <- sf_geojson(research_farm_aoi_sf)
-class(myextent_1)
+#install.packages("RCurl")
+library(RCurl)
+library(curl)
+#get from github, https://stackoverflow.com/a/40139270/4927395
+# url_file<-"https://raw.githubusercontent.com/markbneal/satellite/master/research_farm_aoi.RDS" 
+# download.file(url_file,"research_farm_aoi.RDS", method="curl")
 
+# research_farm_aoi <- readRDS("research_farm_aoi.RDS") #read it in if you don't want to do it interactively
+# research_farm_aoi_sf <- st_sf(research_farm_aoi)
+# myextent_1 <- sf_geojson(research_farm_aoi_sf)
+# class(myextent_1)
 
 library(sen2r)
+write_scihub_login('markbneal','9627490A')
 
-#write_scihub_login('markbneal','MY_PW_GOES_HERE')
+library(leaflet)
+library(shinyFiles)
 
-# out_paths_1 <- sen2r(
-#   gui = FALSE,
-#   step_atmcorr = "l2a",
-#   extent = myextent_1,
-#   extent_name = "Barbellino",
-#   timewindow = c(as.Date("2020-07-13"), as.Date("2020-07-25")),
-#   list_prods = c("BOA","SCL"),
-#   list_indices = c("NDVI","MSAVI2"),
-#   list_rgb = c("RGB432B"),
-#   mask_type = "cloud_and_shadow",
-#   max_mask = 10, 
-#   path_l2a = safe_dir_1,
-#   path_out = out_dir_1
-# )
+sessionInfo()
+#update.packages(ask=FALSE)
+
+
+out_paths_1 <- sen2r(
+  gui = FALSE,
+  step_atmcorr = "l2a",
+  extent = myextent_1,
+  extent_name = "Barbellino",
+  timewindow = c(as.Date("2019-07-13"), as.Date("2019-07-25")),
+  list_prods = c("BOA","SCL"),
+  list_indices = c("NDVI","MSAVI2"),
+  list_rgb = c("RGB432B"),
+  mask_type = "cloud_and_shadow",
+  max_mask = 10,
+  path_l2a = safe_dir_1,
+  path_out = out_dir_1
+)
 
 out_paths_2 <- sen2r(
   gui = FALSE,
@@ -56,7 +73,6 @@ out_paths_2 <- sen2r(
   mask_type = "cloud_and_shadow",
   max_mask = 10, 
   path_l2a = safe_dir_1,
-  #  path_out = out_dir_1
   path_out = out_dir_2
 )
 
@@ -67,7 +83,7 @@ sen2r()
 #install.packages(c("shinyFiles"))
 
 list.files(safe_dir_1)
-list.files(out_dir_1)
+# list.files(out_dir_1)
 # list.files(file.path(out_dir_1, "NDVI"))
 # path = file.path(out_dir_1, "NDVI")
 
