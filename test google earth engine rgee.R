@@ -8,7 +8,7 @@
 
 library(rgee)
 
-## Notes from install on laptop
+## Notes from install on laptop ####
 
 # ee_Initialize() #one off, first time use
 
@@ -29,9 +29,10 @@ library(rgee)
 # If no, please try:
 #   > ee_install(): To create and set a Python environment with all rgee dependencies.
 
-#ee_install()
+ee_install()
 
-#ee_check()
+ee_clean_pyenv() 
+ee_check()
 
 
 # note: I updated conda as per instructions.
@@ -41,7 +42,7 @@ library(rgee)
 
 ## notes from Install on workbench ####
 
-# ee_Initialize() #one off, first time use
+ee_Initialize() #one off, first time use
 
 # Preparing transaction: ...working... done
 # Verifying transaction: ...working... done
@@ -55,6 +56,31 @@ library(rgee)
 #   > ee_install(): To create and set a Python environment with all rgee dependencies.
 # > ee_install_set_pyenv(): To set a specific Python environment.
 
+#ee_install() # restarted R and workbench session befre this, looks like it worked
+
+# Well done! rgee has been successfully installed on your system.
+# You need restart R to see changes (Windows users must terminate R!). After that, we recommend
+# running ee_check() to perform a full check of all non-R rgee dependencies.
+# Do you want restart your R session? 
+
+#ee_check()
+
+# > ee_check()
+# ◉  Python version
+# ✔ [Ok] /home/nealm@dexcel.co.nz/.virtualenvs/rgee/bin/python v3.8
+# ✔ [X] earthengine-api not installed
+
+# advice: https://github.com/r-spatial/rgee/issues/91
+#rgee::ee_install_upgrade()
+
+ee_check()
+# > ee_check()
+# ◉  Python version
+# ✔ [Ok] /home/nealm@dexcel.co.nz/.virtualenvs/rgee/bin/python v3.8
+# ✔ [X] numpy not installed
+
+library(reticulate)
+py_config()
 
 # Quick Demo
 # 1. Compute the trend of night-time lights (JS version) ####-----------------------------------------
