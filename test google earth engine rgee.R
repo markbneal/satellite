@@ -8,6 +8,8 @@
 
 library(rgee)
 
+## Notes from install on laptop
+
 # ee_Initialize() #one off, first time use
 
 # Welcome to the Earth Engine client library for R!
@@ -31,10 +33,28 @@ library(rgee)
 
 #ee_check()
 
+
 # note: I updated conda as per instructions.
 # I also skipped using ee_check(), a possible issue.
 
 #after forced shutdown of processing, some issues
+
+## notes from Install on workbench ####
+
+# ee_Initialize() #one off, first time use
+
+# Preparing transaction: ...working... done
+# Verifying transaction: ...working... done
+# Executing transaction: ...working... done
+# Would you like to stop to receive this message? [Y/n]:n
+# Error in ee_connect_to_py(path = ee_current_version, n = 5) : 
+#   The current Python PATH: /home/nealm@dexcel.co.nz/.local/share/r-miniconda/envs/r-reticulate/bin/python
+# does not have the Python package "earthengine-api" installed. Are you restarted/terminated.
+# your R session after install miniconda or run ee_install()?
+#   If no do it, please try again:
+#   > ee_install(): To create and set a Python environment with all rgee dependencies.
+# > ee_install_set_pyenv(): To set a specific Python environment.
+
 
 # Quick Demo
 # 1. Compute the trend of night-time lights (JS version) ####-----------------------------------------
