@@ -32,8 +32,12 @@ library(rgee)
 
 ee_install()
 
-ee_clean_pyenv() 
+Yee_clean_pyenv() 
 ee_check()
+<<<<<<< HEAD
+ee_check_python()
+ee_check_credentials()
+=======
 ee_install_upgrade()
 reticulate::py_install('earthengine-api==0.1.235')
 
@@ -45,7 +49,6 @@ reticulate::py_install('earthengine-api==0.1.235')
 # * reticulate::py_install('earthengine-api==0.1.235')
 # * pip install earthengine-api==0.1.235 (Linux and Mac0S)
 # * conda install earthengine-api==0.1.235 (Linux, Mac0S, and Windows)
-
 
 # note: I updated conda as per instructions.
 # I also skipped using ee_check(), a possible issue.
@@ -93,6 +96,20 @@ ee_check()
 
 library(reticulate)
 py_config()
+
+# To install gcloud, as recommended by ee_check(), but without admin permissions, I uses this other package
+
+install.packages("cloudml")
+library(cloudml)
+gcloud_install()
+library(cloudml)
+cloudml_train("train.R")
+
+# However, there is no browser to login, so you need to do without
+# https://github.com/rstudio/cloudml/issues/191
+# in terminal:
+# gcloud auth login --no-launch-browser
+
 
 
 # install.packages("cloudml")
