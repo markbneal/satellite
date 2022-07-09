@@ -4,13 +4,13 @@
 # Get installation working ####-------------------------------------------------------------
 
 #install.packages("rgee")
-#devtools::install_github("https://github.com/r-spatial/rgee")
+devtools::install_github("https://github.com/r-spatial/rgee")
 
-library(rgee)
+1library(rgee)
 
 ## Notes from install on laptop ####
 
-# ee_Initialize() #one off, first time use
+ ee_Initialize() #one off, first time use
 
 # Welcome to the Earth Engine client library for R!
 #   ---
@@ -33,6 +33,17 @@ ee_install()
 
 ee_clean_pyenv() 
 ee_check()
+ee_install_upgrade()
+reticulate::py_install('earthengine-api==0.1.235')
+
+# NOTE: The Earth Engine Python API version 0.1.243 is installed
+# correctly in the system but rgee was tested using the version
+# 0.1.235. To avoid possible issues, we recommend install the
+# version used by rgee (0.1.235). You might use:
+#   * rgee::ee_install_upgrade()
+# * reticulate::py_install('earthengine-api==0.1.235')
+# * pip install earthengine-api==0.1.235 (Linux and Mac0S)
+# * conda install earthengine-api==0.1.235 (Linux, Mac0S, and Windows)
 
 
 # note: I updated conda as per instructions.
@@ -81,6 +92,10 @@ ee_check()
 
 library(reticulate)
 py_config()
+
+
+install.packages("cloudml")
+
 
 # Quick Demo
 # 1. Compute the trend of night-time lights (JS version) ####-----------------------------------------
