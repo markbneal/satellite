@@ -34,10 +34,10 @@ ee_install()
 
 Yee_clean_pyenv() 
 ee_check()
-<<<<<<< HEAD
+
 ee_check_python()
 ee_check_credentials()
-=======
+
 ee_install_upgrade()
 reticulate::py_install('earthengine-api==0.1.235')
 
