@@ -10,7 +10,7 @@ library(rgee)
 
 ## Notes from install on laptop ####
 
-# ee_Initialize() #one off, first time use
+ ee_Initialize() #one off, first time use
 
 # Welcome to the Earth Engine client library for R!
 #   ---
@@ -31,8 +31,10 @@ library(rgee)
 
 ee_install()
 
-ee_clean_pyenv() 
+Yee_clean_pyenv() 
 ee_check()
+ee_check_python()
+ee_check_credentials()
 
 
 # note: I updated conda as per instructions.
@@ -81,6 +83,21 @@ ee_check()
 
 library(reticulate)
 py_config()
+
+# To install gcloud, as recommended by ee_check(), but without admin permissions, I uses this other package
+
+install.packages("cloudml")
+library(cloudml)
+gcloud_install()
+library(cloudml)
+cloudml_train("train.R")
+
+# However, there is no browser to login, so you need to do without
+# https://github.com/rstudio/cloudml/issues/191
+# in terminal:
+# gcloud auth login --no-launch-browser
+
+
 
 # Quick Demo
 # 1. Compute the trend of night-time lights (JS version) ####-----------------------------------------
