@@ -4,9 +4,9 @@
 # Get installation working ####-------------------------------------------------------------
 
 #install.packages("rgee")
-#devtools::install_github("https://github.com/r-spatial/rgee")
+devtools::install_github("https://github.com/r-spatial/rgee")
 
-library(rgee)
+1library(rgee)
 
 ## Notes from install on laptop ####
 
@@ -33,9 +33,21 @@ ee_install()
 
 Yee_clean_pyenv() 
 ee_check()
+<<<<<<< HEAD
 ee_check_python()
 ee_check_credentials()
+=======
+ee_install_upgrade()
+reticulate::py_install('earthengine-api==0.1.235')
 
+# NOTE: The Earth Engine Python API version 0.1.243 is installed
+# correctly in the system but rgee was tested using the version
+# 0.1.235. To avoid possible issues, we recommend install the
+# version used by rgee (0.1.235). You might use:
+#   * rgee::ee_install_upgrade()
+# * reticulate::py_install('earthengine-api==0.1.235')
+# * pip install earthengine-api==0.1.235 (Linux and Mac0S)
+# * conda install earthengine-api==0.1.235 (Linux, Mac0S, and Windows)
 
 # note: I updated conda as per instructions.
 # I also skipped using ee_check(), a possible issue.
@@ -97,6 +109,9 @@ cloudml_train("train.R")
 # in terminal:
 # gcloud auth login --no-launch-browser
 
+
+
+install.packages("cloudml")
 
 
 # Quick Demo
