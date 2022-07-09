@@ -5,8 +5,9 @@
 
 #install.packages("rgee")
 devtools::install_github("https://github.com/r-spatial/rgee")
+#install.packages("magrittr")
 
-1library(rgee)
+library(rgee)
 
 ## Notes from install on laptop ####
 
@@ -94,7 +95,7 @@ library(reticulate)
 py_config()
 
 
-install.packages("cloudml")
+# install.packages("cloudml")
 
 
 # Quick Demo
