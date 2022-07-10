@@ -1,4 +1,4 @@
-#testing rgee, Google Earth Engine
+#testing rgee, Google Earth Engine.
 # https://github.com/r-spatial/rgee
 
 # Get installation working ####-------------------------------------------------------------
