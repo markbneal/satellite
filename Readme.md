@@ -1,4 +1,4 @@
-#Satellite imagery analysis in R 
+#Satellite imagery analysis in R. 
 
 This repo is a grab bag of testing satellite imagery packages.
 
