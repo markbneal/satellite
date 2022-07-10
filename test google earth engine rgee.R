@@ -105,7 +105,6 @@ py_config()
 install.packages("cloudml")
 library(cloudml)
 gcloud_install()
-library(cloudml)
 cloudml_train("train.R")
 
 # However, there is no browser to login, so you need to do without
@@ -113,9 +112,8 @@ cloudml_train("train.R")
 # in terminal:
 # gcloud auth login --no-launch-browser
 
-# 4/0AdQt8qgcR87AHVJl3vrpuM-4kNkIlS2oi1cndXVnQEKMUDFc_Pg5SddtECLdJYP1EMGWKA
-# 4/0AdQt8qiO4Fa-0rXVWzKU3neg0_O2xWWWtZv1Ht3fJVhZlrmghnFJ9AdRpPnp4SjrNFM4UA
-# 4/0AdQt8qghm3iX56BjBvdryzBgjIbdWRZJbEeF0m7WL6Oj6jwEVq6N6RQnGr4ZkLDugZ7MfA
+# Auth keys look like this:
+# 4/0AdQt8qghm3iX56BjBvdryzBgjIbdWRZJbEeF0m7WL6Oj6jwEVq6N6RQnGr4ZkLxxxxxxxx
 
 # note: only one Rstudio session to brower connection can exist - 
 # this was a problem when i had RStudio Workbench and RStudio desktop trying to connect via same browser
