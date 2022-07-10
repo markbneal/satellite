@@ -29,7 +29,7 @@ user = "group27"
 pwd = "test123"
 
 # connect  to the back-end and login either via explicit call of login, or use your credentials in the connect function
-gee = connect(host = "https://earthengine.openeo.org",user = user,password = pwd,login_type = "basic")
+gee = connect(host = "https://earthengine.openeo.org",user = user,password = pwd) #,login_type = "basic")
 
 # get the process collection to use the predefined processes of the back-end
 p = processes()
@@ -115,7 +115,7 @@ result = p$save_result(data = rescaled,format = formats$output$PNG, options = li
 
 # create a job
 job = create_job(graph = result, title = "S1 Example R", description = "Getting Started example on openeo.org for R-client")
-
+warnings()
 # then start the processing of the job and turn on logging (messages that are captured on the back-end during the process execution)
 start_job(job = job, log = TRUE)
 

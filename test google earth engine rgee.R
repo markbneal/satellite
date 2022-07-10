@@ -4,8 +4,10 @@
 # Get installation working ####-------------------------------------------------------------
 
 #install.packages("rgee")
-devtools::install_github("https://github.com/r-spatial/rgee")
+#devtools::install_github("https://github.com/r-spatial/rgee")
 #install.packages("magrittr")
+#install.packages("Rcpp")
+#install.packages("reticulate")
 
 library(rgee)
 
@@ -38,8 +40,9 @@ ee_check()
 ee_check_python()
 ee_check_credentials()
 
-ee_install_upgrade()
-reticulate::py_install('earthengine-api==0.1.235')
+#ee_install_upgrade()
+#ee_install_set_pyenv(py_env = "rgee", py_path = "~/.conda/envs/rgee/python.exe")
+#reticulate::py_install('earthengine-api==0.1.235') #not required if above worked?
 
 # NOTE: The Earth Engine Python API version 0.1.243 is installed
 # correctly in the system but rgee was tested using the version
@@ -110,9 +113,16 @@ cloudml_train("train.R")
 # in terminal:
 # gcloud auth login --no-launch-browser
 
+# 4/0AdQt8qgcR87AHVJl3vrpuM-4kNkIlS2oi1cndXVnQEKMUDFc_Pg5SddtECLdJYP1EMGWKA
+# 4/0AdQt8qiO4Fa-0rXVWzKU3neg0_O2xWWWtZv1Ht3fJVhZlrmghnFJ9AdRpPnp4SjrNFM4UA
+# 4/0AdQt8qghm3iX56BjBvdryzBgjIbdWRZJbEeF0m7WL6Oj6jwEVq6N6RQnGr4ZkLDugZ7MfA
+
+# note: only one Rstudio session to brower connection can exist - 
+# this was a problem when i had RStudio Workbench and RStudio desktop trying to connect via same browser
 
 
-# install.packages("cloudml")
+rgee::ee_Initialize(drive = TRUE)
+ee_clean_credentials('ndef')
 
 
 # Quick Demo

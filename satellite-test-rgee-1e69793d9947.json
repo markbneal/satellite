@@ -1,0 +1,12 @@
+{
+  "type": "service_account",
+  "project_id": "satellite-test-rgee",
+  "private_key_id": "1e69793d9947c713468888166da1458e71fef13b",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvgIBADANBgkqhkiG9w0BAQEFAASCBKgwggSkAgEAAoIBAQDOA2fTZ22+ww9L\nsUKBuYb4MkWs8RbDbo2ZDaRbWm0S1/aHk7/MI4NAMpzhcY/TPWQ6EvRzW9eMzQ9a\ncWQmaKg7CAzSp3s9g+RsjwRmtrRdxWSJDTZ6kG4D9u3xx+rsvfqWir9bTMJFoDI6\ntGcWuBOhiBFV4eY71o/5f1H5EknX3vv3mdtSCHCSKAub6v8DrgBMck1RyNXTVBZJ\ny1MGGPkRb74wz5vLxh9U5BBzmGcv+YgAS429L63GPYkclQW+KQe5fduXO8IVXAql\n3L4eWm2Q4QnwAEW3/ExZk3/KQYPUPAUKb+1oYphKY2/LzzrT696A1I3IsHh2Yort\nEjksnUyXAgMBAAECggEAFGwLViOXTM/IAQ2OCuS6Annz+j7eriTpbdYHsvP12BEH\nOU1mN/WqmdSVRKvzQVIr+1h3BHCC9Pbm92Ts3qSFThoa208K99V5RrcEDVfomAXB\n/5a1uH9UyJkpNqHwzI3Qp4JoPG68MMFpTp8k5lWnwd2GimhIYH+BP48QMIv651E1\nSWaTycYmdZj0wl1/onbtjpfqtp3zcA/SfQX/uHrNfQolwY4uUy/uy6TcSoGe5PpR\nifszOcx2udISyEVLiVMJRHjfVmZjV522slBCWmltpqDohOa4VNDUZ+TSUmZqFwO8\nwna1VQkthk6UKS6S/5K5jXL84pbgRD0m2SsLKZb1gQKBgQDozY/KPE+fHvghp0ln\nm3uik7FkHFABM2TCf3ZU4o3CdFg5n5ffJouIVsU1PSvmOWzxW5UPZpCONwuCby1g\nWPjoY+AlRHxizAWnEzkjq8PTI+DMTq7ZLihjKqRmQ7a/6LMIhI3Q4yxIPsvUNlj9\ncKaKqenBzy4BeqUcwS5oFdcX9wKBgQDiins+Opt3K5k3PfdxAHzC9VpGjQ5N1V7m\na/pHn4Rbr8i6uKABu90EZannxK3BZ+HXElWQB/tWDuNZrTfKOj2MnDlXrN0y3StE\njAiwl8uI2VeYbSZYaF3ie3Za1j38Q+M0wkW8HraXutWjhtpmVjMGi/KqISJPPuHn\nFEBThS6IYQKBgQC+agRGQfZODCKgRBgCKmaBn5PkclPt539uppq+619PwaG34BV0\nbC6MoYxD83jIoge9kk7lfdqWt+cuFIlk2OEeEzLuyImEtaOZ+FswFfnh5OKluWXC\nNcLK+cHl81Syuz5UpTbpuCYsIVDOjnVTNqTBniCYaUET7KDIWCoA8HwyGQKBgQDA\nSeNKcty7TpqCtWpu1IcRxMiX0esuTcp7s3OBj/j9CjxLoaLPVfLIZLLPM7Z40AB2\nWe2ej+faqFB6MfmFAeJ0k7ZooSYwomKzkFlf67irtDASBbPintPyBfH0MJ30nnsg\nsTYX88nxCHmGkFSZQNmW2PtlRTKmKS3+wsXHHujcgQKBgGlbB47zLl/afUVxv9/v\nhbiFjUy3LPyhHoG2NojYqV4xAmfzFTbKnnVijPeu7wSsgbEiIRR6hCVSI838kTiI\nOexj/13RXMAnRAdnBhhbstnJIj2Ox6kNMRBlWmUYJgOUGXybVW+dgE8dEuNk4Nz5\n5DDIfW4YHOi7T0ihVEsRm7v4\n-----END PRIVATE KEY-----\n",
+  "client_email": "gee-service-account@satellite-test-rgee.iam.gserviceaccount.com",
+  "client_id": "105057111718863095250",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/gee-service-account%40satellite-test-rgee.iam.gserviceaccount.com"
+}
