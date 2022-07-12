@@ -6,8 +6,23 @@
 #install.packages("rgee")
 devtools::install_github("https://github.com/r-spatial/rgee")
 #install.packages("magrittr")
+# install.packages("gdalUtils")
+# devtools:::install_github("gearslaboratory/gdalUtils")
+# devtools::install_github("16EAGLE/getSpatialData")
+
+
+
+# Packages for cloudML (to test gcloud authentication)
+install.packages(c('ModelMetrics', 'RStoolbox', 'caret', 'crul', 'exactextractr', 'gdalUtils', 
+                   'geojson', 'geojsonio', 'getSpatialData', 'httpcode', 'protolite', 
+                   'sen2r', 'shinyFiles', 'triebeard', 'urltools'))
+install.packages(c('gdalUtils', 'geojson', 'geojsonio', 'getSpatialData', 'jqr', 'protolite', 'sen2r'))
+
+# 'geojson', 'geojsonio', 'jqr', 'protolite', 'sen2r'
 
 library(rgee)
+
+
 
 ## Notes from install on laptop ####
 
@@ -32,7 +47,7 @@ library(rgee)
 
 ee_install()
 
-Yee_clean_pyenv() 
+ee_clean_pyenv() 
 ee_check()
 
 ee_check_python()
@@ -99,10 +114,12 @@ py_config()
 
 # To install gcloud, as recommended by ee_check(), but without admin permissions, I uses this other package
 
-install.packages("cloudml")
+#install.packages("cloudml")
+#library(cloudml)
+#gcloud_install()
+
 library(cloudml)
-gcloud_install()
-library(cloudml)
+#cloudml_train("mnist_mlp.R")
 cloudml_train("train.R")
 
 # However, there is no browser to login, so you need to do without
@@ -110,10 +127,14 @@ cloudml_train("train.R")
 # in terminal:
 # gcloud auth login --no-launch-browser
 
+library(rgee)
+# install.packages("googleCloudStorageR")
+# library(googleCloudStorageR)
+ee$Authenticate()
+ee$Initialize()
 
-
-# install.packages("cloudml")
-
+ee_Initialize(drive= TRUE)
+ee_Initialize(gcs= TRUE)
 
 # Quick Demo
 # 1. Compute the trend of night-time lights (JS version) ####-----------------------------------------
