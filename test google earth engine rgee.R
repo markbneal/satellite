@@ -1,11 +1,12 @@
-#testing rgee, Google Earth Engine
+#testing rgee, Google Earth Engine.
 # https://github.com/r-spatial/rgee
 
 # Get installation working ####-------------------------------------------------------------
 
 #install.packages("rgee")
-devtools::install_github("https://github.com/r-spatial/rgee")
+#devtools::install_github("https://github.com/r-spatial/rgee")
 #install.packages("magrittr")
+
 # install.packages("gdalUtils")
 # devtools:::install_github("gearslaboratory/gdalUtils")
 # devtools::install_github("16EAGLE/getSpatialData")
@@ -19,6 +20,10 @@ install.packages(c('ModelMetrics', 'RStoolbox', 'caret', 'crul', 'exactextractr'
 install.packages(c('gdalUtils', 'geojson', 'geojsonio', 'getSpatialData', 'jqr', 'protolite', 'sen2r'))
 
 # 'geojson', 'geojsonio', 'jqr', 'protolite', 'sen2r'
+
+#install.packages("Rcpp")
+#install.packages("reticulate")
+
 
 library(rgee)
 
@@ -53,8 +58,9 @@ ee_check()
 ee_check_python()
 ee_check_credentials()
 
-ee_install_upgrade()
-reticulate::py_install('earthengine-api==0.1.235')
+#ee_install_upgrade()
+#ee_install_set_pyenv(py_env = "rgee", py_path = "~/.conda/envs/rgee/python.exe")
+#reticulate::py_install('earthengine-api==0.1.235') #not required if above worked?
 
 # NOTE: The Earth Engine Python API version 0.1.243 is installed
 # correctly in the system but rgee was tested using the version
@@ -114,18 +120,25 @@ py_config()
 
 # To install gcloud, as recommended by ee_check(), but without admin permissions, I uses this other package
 
+
 #install.packages("cloudml")
 #library(cloudml)
 #gcloud_install()
 
 library(cloudml)
 #cloudml_train("mnist_mlp.R")
+
+install.packages("cloudml")
+library(cloudml)
+gcloud_install()
+
 cloudml_train("train.R")
 
 # However, there is no browser to login, so you need to do without
 # https://github.com/rstudio/cloudml/issues/191
 # in terminal:
 # gcloud auth login --no-launch-browser
+
 
 library(rgee)
 # install.packages("googleCloudStorageR")
@@ -135,6 +148,17 @@ ee$Initialize()
 
 ee_Initialize(drive= TRUE)
 ee_Initialize(gcs= TRUE)
+
+# Auth keys look like this:
+# 4/0AdQt8qghm3iX56BjBvdryzBgjIbdWRZJbEeF0m7WL6Oj6jwEVq6N6RQnGr4ZkLxxxxxxxx
+
+# note: only one Rstudio session to brower connection can exist - 
+# this was a problem when i had RStudio Workbench and RStudio desktop trying to connect via same browser
+
+
+rgee::ee_Initialize(drive = TRUE)
+ee_clean_credentials('ndef')
+
 
 # Quick Demo
 # 1. Compute the trend of night-time lights (JS version) ####-----------------------------------------
