@@ -11,9 +11,9 @@ An R Package accessing Sentinel data from ESA Scihub or Google Buckets. This wor
 An R package for accessing Google Earth Engine, not yet working for me with current google cloud authentication, and requires some items to be installed on workbench.
 
 # openeo
-Theoretically an open approach to eo, that could use various backends, including ESA and GEE, but not yet working for me. I have requested an account.
+Theoretically an open approach to eo, that could use various backends, including ESA and GEE. The gee backend isn't working, but after getting a trial account, the open eo backend is working.
 
-All of these options can have some painful installation issues - I recommend to install latest from Github where possible, and ensure all other CRAN pakages are up to date. Restarting R is required often.
+Most of these options can have some painful installation issues - I recommend to install latest from Github where possible, and ensure all other CRAN packages are up to date. Restarting R is required often.
 
 
 Also included are files from this repo, using sen2r:
