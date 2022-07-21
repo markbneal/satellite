@@ -4,7 +4,6 @@
 # note, some code commented out as redundant, because from vignette,
 # other code commented ou for speed or was for testing
 
-
 # remotes::install_github("ranghetti/sen2r")
 
 # installed updates of all cran packages first, was a pain, but the worked
@@ -22,7 +21,10 @@ library(geojsonsf)
 library(RCurl)
 library(curl)
 # install.packages(c("shinyFiles"))
+
 library(sen2r)
+
+
 
 library(rgdal)
 # library(raster) # older, slower
@@ -34,34 +36,44 @@ library(jpeg)
 
 
 # Set paths
-# out_dir_1  <- tempfile(pattern = "sen2r_out_1_") # output folder
-# out_dir_2  <- tempfile(pattern = "sen2r_out_2_") # output folder, my preferred extent
-# safe_dir_1 <- tempfile(pattern = "sen2r_safe_")  # folder to store downloaded SAFE
+ # out_dir_1  <- tempfile(pattern = "sen2r_out_1_") # output folder
+ # out_dir_2  <- tempfile(pattern = "sen2r_out_2_") # output folder, my preferred extent
+ # safe_dir_1 <- tempfile(pattern = "sen2r_safe_")  # folder to store downloaded SAFE
 
 # We could keep data directories in the project folder, but need to ensure the folders are in .gitignore file
 
-dir.create("C:/sen2r/sen2r_safe_")
-dir.create("C:/sen2r/sen2r_out_1_")
-safe_dir_1 <- "C:/sen2r/sen2r_safe_"  # folder to store downloaded SAFE, note, this folder gets large, 5+ GB!
-out_dir_1  <- "C:/sen2r/sen2r_out_1_" # output folder
+ dir.create("sen2r_safe_/")
+ dir.create("sen2r_out_1_/")
+ safe_dir_1 <- "sen2r_safe_"  # folder to store downloaded SAFE, note, this folder gets large, 5+ GB!
+ out_dir_1  <- "sen2r_out_1_" # output folder
 
-# myextent_1 <- system.file("extdata/vector/barbellino.geojson", package = "sen2r") #from demo
+myextent_1 <- system.file("extdata/vector/barbellino.geojson", package = "sen2r") #from demo
 
 #get from github, https://stackoverflow.com/a/40139270/4927395
 # url_file<-"https://raw.githubusercontent.com/markbneal/satellite/master/research_farm_aoi.RDS" 
 # download.file(url_file,"research_farm_aoi.RDS", method="curl")
 
-# research_farm_aoi <- readRDS("research_farm_aoi.RDS") #read it in if you don't want to do it interactively
+ research_farm_aoi <- readRDS("research_farm_aoi.RDS") #read it in if you don't want to do it interactively
 # #Note: this AOI is large compared to extent of farm, should probably use bounding box (Bbox) generated below for Scott Farm
-# research_farm_aoi_sf <- st_sf(research_farm_aoi)
-# myextent_1 <- sf_geojson(research_farm_aoi_sf)
+ research_farm_aoi_sf <- st_sf(research_farm_aoi)
+ myextent_1 <- sf_geojson(research_farm_aoi_sf)
+ class(myextent_1)
+
+# # scott_bb_geom_sf <- read_rds("scott_bb_geom_sf.RDS")
+# myextent_1 <- scott_bb_geom_sf
+# plot(myextent_1)
+# #myextent_1 <- sf_geojson(scott_bb_geom_sf)
 # class(myextent_1)
+# st_crs(myextent_1) <- 4326
+# #myextent_1 <- st_transform(myextent_1, 2193)
 
-scott_bb_geom_sf <- read_rds("scott_bb_geom_sf.RDS")
-myextent_1 <- scott_bb_geom_sf
-st_crs(myextent_1)
+plot(myextent_1)
+st_bbox(myextent_1)
 
-write_scihub_login('markbneal','9627490A')
+write_scihub_login('markbneal','XXXXXXXXXX') # see Mark , or register for your own
+
+#Sys.setenv(SCIHUB_PWD = '9XXXXXXX')
+#Sys.getenv("SCIHUB_PWD")
 
 sessionInfo()
 
@@ -89,8 +101,8 @@ out_paths_1 <- sen2r(
 
 # Note; Option to use Google to avoid waiting for ESA archived data
 # https://www.r-bloggers.com/2021/06/downloading-sentinel-2-archives-from-google-cloud-with-sen2r/ 
-# check_gcloud()
-# check_sen2r_deps()
+ # check_gcloud()
+ # check_sen2r_deps()
 
 # Warning message:
 #   Some files were not created:

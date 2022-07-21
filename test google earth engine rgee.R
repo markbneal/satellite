@@ -27,8 +27,6 @@ install.packages(c('gdalUtils', 'geojson', 'geojsonio', 'getSpatialData', 'jqr',
 
 library(rgee)
 
-
-
 ## Notes from install on laptop ####
 
  ee_Initialize() #one off, first time use
@@ -156,9 +154,35 @@ ee_Initialize(gcs= TRUE)
 # this was a problem when i had RStudio Workbench and RStudio desktop trying to connect via same browser
 
 
+
+# Using solutions from here to authenticate earthengine
+# https://gis.stackexchange.com/questions/422038/authenticate-earthengine-cli-using-a-service-account
+# Note this uses service account generated at Google Cloud Console, with .json file from there
+# commands below have switched ee. to ee$ as we are calling from R, not python
+service_account = "gee-service-account@satellite-test-rgee.iam.gserviceaccount.com"
+credentials = ee$ServiceAccountCredentials(service_account, "satellite-test-rgee-631bb3eccedb.json")
+ee$Initialize(credentials)
+
+#however, this might not authorise the Command line interface (CLI) to ccess google drive etc
+
+# This doesn't work either
+# https://r-spatial.github.io/rgee/articles/rgee05.html
+SaK_file <- "satellite-test-rgee-631bb3eccedb.json" # PUT HERE THE FULLNAME OF YOUR SAK
+
+ee_get_earthengine_path()
+
+ee_utils_sak_copy(
+  sakfile =  SaK_file,
+  users = c("markbneal") # Unlike GD, we can use the same SaK for multiple users.
+)
+
+# Validate your SaK
+ee_utils_sak_validate()
+ee_get_earthengine_path()
+
+
 rgee::ee_Initialize(drive = TRUE)
 ee_clean_credentials('ndef')
-
 
 # Quick Demo
 # 1. Compute the trend of night-time lights (JS version) ####-----------------------------------------

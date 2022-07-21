@@ -22,7 +22,7 @@ print(s2)
 
 # with RStudio the metadata can also be nicely rendere    d as a web page
 collection_viewer(x="SENTINEL1_GRD")
-
+collection_viewer()
 ## Processes ####-----------------------------------------------------------------
 
 # List of available openEO processes with full metadata
